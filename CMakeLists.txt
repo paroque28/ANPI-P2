@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.6)
-project(anpi-pol)
-
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp src/muller.h)
+
+project(anpi-pol)
+add_executable(anpi-pol main.cpp src/muller.h)
 
 
-add_executable(anpi-pol ${SOURCE_FILES})
+#Include Boost
+find_package( Boost REQUIRED COMPONENTS )
+
+include_directories(${Boost_INCLUDE_DIRS})
+target_link_libraries(anpi-pol ${Boost_LIBRARIES})
