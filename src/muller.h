@@ -18,7 +18,7 @@ namespace anpi
         }
          
         template<typename T>
-        std::complex<T> solve(T * coefs, int grado, T lower, T middle, T upper)
+        std::complex<T> solve(T * coefs, int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
         {
             // Busqueda de raices reales y complejas mediante el metodo de Muller.
             
@@ -45,6 +45,9 @@ namespace anpi
             std::complex<T> secondRoot;
             std::complex<T> actualRoot;
             
+            std::complex<T> dos (2, 0);
+            std::complex<T> cuatro (4, 0);
+
             for (int contador = 0 ; contador < 10 ; ++contador)
             {
                 // Evaluamos los tres puntos que tenemos:
@@ -63,13 +66,13 @@ namespace anpi
                 gamma1 = (upperEval - middleEval) / (upper - middle);
 
                 // Calculamos las dos raices mediante la formula alternativa cuadratica:
-                firstRoot = upper + ((-2 * c) / (b + std::sqrt(std::pow(b, 2) - 4 * a * c)));
-                secondRoot = upper + ((-2 * c) / (b + std::sqrt(std::pow(b, 2) + 4 * a * c)));
+                firstRoot = upper + ((-dos * c) / (b + std::sqrt(std::pow(b, dos) - cuatro * a * c)));
+                secondRoot = upper + ((-dos * c) / (b + std::sqrt(std::pow(b, dos) + cuatro * a * c)));
 
                 // Se escoge la raiz cuyo signo coincida con el de b.
-                if (b < 0)
+                if (std::real(b) < 0)
                 {
-                    if (firstRoot < 0)
+                    if (std::real(firstRoot) < 0)
                     {
                         actualRoot = firstRoot;
                     } else
@@ -78,7 +81,7 @@ namespace anpi
                     }
                 } else
                 {
-                    if (firstRoot >= 0)
+                    if (std::real(firstRoot) >= 0)
                     {
                         actualRoot = firstRoot;
                     } else
@@ -87,24 +90,12 @@ namespace anpi
                     }
                 }
 
-                /* Finalmente debemos seleccionar los nuevos tres puntos. Se hace asi:
-                 * a) Solo raices reales? Tomamos los dos valores mas cercanos a actualRoot.
-                 * b) Reales + Complejas? middle, upper y actualRoot toman el lugar de
-                 *    lower, middle y upper (manera secuencial). */
-                if (std::imag(firstRoot) == 0 && std::imag(secondRoot) == 0)
-                {
-                    // Tengo que pensar bien esta seleccion, work in progress.
-                    upper = actualRoot;
-                    middle = upper;
-                    lower = middle;
-
-                } else 
-                {
-                    upper = actualRoot;
-                    middle = upper;
-                    lower = middle;
-                }
+                upper = actualRoot;
+                middle = upper;
+                lower = middle;
             }
+
+            return upper;
         }
     }
 }
