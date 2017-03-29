@@ -1,16 +1,22 @@
 #include <iostream>
-#include <boost/math/tools/polynomial.hpp>
 
-using namespace boost::math::tools; // for polynomial
+#include "src/laguerre.h"
 
 int main()
 {
-    polynomial<double> const a{{-2.0, 1.0}};
-// With C++11 and later, you can also use initializer_list construction.
-    polynomial<double> const b{{-2.0, 1.0}};
 
-// formula_format() converts from Boost storage to human notation.
-    std::cout << "a = " << boost::formula_format(a)
-         << "\nb = " << boost::formula_format(b) << "\n\n";
+    vector<complex<double>> p;
+// x^3 - 8x^2 - 13x + 140 = (x+4)(x-5)(x-7)
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(-1);
+    //p.push_back(1);
+
+    vector<complex<double>> roots = laguerre(p);
+
+    for(size_t i = 0; i < roots.size(); i++) {
+        cout << setprecision(10) << roots[i] << endl;
+    }
+
     return 0;
 }
