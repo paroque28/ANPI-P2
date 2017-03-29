@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 
 project(anpi-pol)
-add_executable(anpi-pol main.cpp src/muller.h)
+add_executable(anpi-pol main.cpp src/muller.h src/divide-pol.h src/formulaformat.h)
 
 
 #Include Boost

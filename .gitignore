@@ -45,3 +45,8 @@
 #folders
  .idea/
  cmake-build-debug/
+.idea/.name
+.idea/ANPI-P2.iml
+.idea/modules.xml
+.idea/workspace.xml
+cmake-build-debug/
