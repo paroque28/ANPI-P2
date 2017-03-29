@@ -1,4 +1,3 @@
-#include <iostream>
 #include <boost/math/tools/polynomial.hpp>
 #include "src/divide-pol.h"
 #include "src/formulaformat.h"
@@ -38,5 +37,6 @@ int main()
     std::cout << "a%b = " << formula_format(r) << std::endl;
     std::cout << "a%b = " << formula_format(a%b) << std::endl;
     std::cout << "end" << std::endl;
+  
     return 0;
 }
