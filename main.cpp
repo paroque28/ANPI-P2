@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
         options.parse(argc, argv);
 
 
+
         if (options.count("help") || argc == 1) {
             std::cout << options.help({""}) << std::endl;
             exit(0);
@@ -47,5 +48,4 @@ int main(int argc, char* argv[]) {
         std::cout << "error parsing options: " << e.what() << std::endl;
         exit(1);
     }
-
 }
