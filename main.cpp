@@ -1,42 +1,51 @@
-#include <boost/math/tools/polynomial.hpp>
-#include "src/divide-pol.h"
-#include "src/formulaformat.h"
+#include "lib/optionparser.h"
+#include "src/stringUtils.h"
+int main(int argc, char* argv[]) {
+    try {
+        cxxopts::Options options("anpi-pol", " anpi-pol - Laguerre - Muller solutions for polynomial equations");
 
-using namespace boost::math::tools; // for polynomial
-using boost::lexical_cast;
-using namespace boost::math;
-using namespace std;
-#include "src/laguerre.h"
+        options.add_options()
+                ("l,laguerre", "Use Laguerre method")
+                ("m,muller", "Use Muller method")
+                ("t,time", "Use time tests")
+                ("d,division", "Division of polynomials")
+                ("u,equ", "Equation 1 to solve, example \"3.0+2.0+1.0\" is equivalent to 3x^2+2x+1",cxxopts::value<std::string>())
+                ("v,eqv", "Equation 2 used to divide",cxxopts::value<std::string>())
+                ("h,help", "Print help");
+        options.parse(argc, argv);
 
-int main()
-{
 
-    vector<complex<double>> p;
-// x^3 - 8x^2 - 13x + 140 = (x+4)(x-5)(x-7)
-    p.push_back(-1);
-    p.push_back(-1);
-    p.push_back(-1);
-    //p.push_back(1);
+        if (options.count("help") || argc == 0) {
+            std::cout << options.help({""}) << std::endl;
+            exit(0);
+        }
 
-    vector<complex<double>> roots = laguerre(p);
+        if (options.count("equ")) {
+            std::string ustring = options["equ"].as<std::string>();
+            std::string del = "+";
+            std::vector<double> u = splitDouble(ustring, del);
+            if (options.count("laguerre")) {
 
-    for(size_t i = 0; i < roots.size(); i++) {
-        cout << setprecision(10) << roots[i] << endl;
+
+
+            } else if (options.count("muller")) {
+
+
+
+            } else if (options.count("division")) {
+                if (options.count("eqv")) {
+                    std::string vstring = options["eqv"].as<std::string>();
+                    std::vector<double> v = splitDouble(vstring, del);
+
+
+                }
+            }
+        }
+    }
+    catch (const cxxopts::OptionException& e)
+    {
+        std::cout << "error parsing options: " << e.what() << std::endl;
+        exit(1);
     }
 
-    polynomial<double> const a{{-8.0, 1.0,0.0,2.0,0,1.0}};
-// With C++11 and later, you can also use initializer_list construction.
-    polynomial<double> const b{{1.0, -2.0,1.0}};
-    polynomial<double> r;
-// formula_format() converts from Boost storage to human notation.
-    std::cout << "a = " << formula_format(a)
-         << "\nb = " << formula_format(b) << std::endl;
-    const polynomial<double> &q = divide(a, b, r);
-    std::cout << "a/b = " << formula_format(q) << std::endl;
-    std::cout << "a/b = " << formula_format(a/b) << std::endl;
-    std::cout << "a%b = " << formula_format(r) << std::endl;
-    std::cout << "a%b = " << formula_format(a%b) << std::endl;
-    std::cout << "end" << std::endl;
-  
-    return 0;
 }
