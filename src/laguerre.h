@@ -25,7 +25,7 @@ complex<T> horner(const vector<complex<T>> &a, complex<T> x0){
 
 
 template <typename T>
-vector<complex<T>> div(const vector<complex<T>> &a, complex<T> x0){
+vector<complex<T>> deflation(const vector<complex<T>> &a, complex<T> x0){
     int n = a.size();
     vector<complex<T>> b = vector<complex<T>>(max(1, n - 1));
 
@@ -77,15 +77,40 @@ vector<complex<T>> allRoots(const vector<complex<T>> &poly) {
     vector<complex<T>> answer;
     vector<complex<T>> polyAux = poly;
     while (polyAux.size() > 2) {
-        complex<T> comp =complex<T>(0);
+        complex<T> comp = complex<T>(0);
         comp = laguerre(polyAux, comp);
         comp = laguerre(poly, comp);
-        polyAux = div(polyAux, comp);
+        polyAux = deflation(polyAux, comp);
         answer.push_back(comp);
     }
     answer.push_back(-polyAux[0] / polyAux[1]);
 
     return answer;
+
 }
+
+
+template <typename T>
+vector<complex<T>> allRootsMP(const vector<complex<T>> &poly,complex<T> n) {
+    vector<complex<T>> answer;
+    vector<complex<T>> polyAux = poly;
+
+    while (polyAux.size() > 2) {
+        complex<T> comp =n;
+        comp = laguerre(polyAux, comp);
+        cout<<"comp"<<comp<<endl;
+        polyAux = deflation(polyAux, comp);
+        answer.push_back(comp);
+    }
+    answer.push_back(-polyAux[0] / polyAux[1]);
+
+    return answer;
+        
+        
+        
+    }
+
+
+
 
 #endif //ANPI_P2_LAGUERRE_H
