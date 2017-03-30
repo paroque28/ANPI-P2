@@ -1,6 +1,6 @@
-#ANPI - Polynomial solver
+# ANPI - Polynomial solver
 
-##Usage
+## Usage
 ```
 anpi-pol - Laguerre - Muller solutions for polynomial equations
 Usage:
@@ -15,7 +15,7 @@ Usage:
   -v, --eqv arg   Equation 2 used to divide
   -h, --help      Print help
 ```
-##Intructions to build
+## Intructions to build
 ``` bash
 cd <path to anpi-pol>
 mkdir build
@@ -24,7 +24,7 @@ cmake ..
 make
 .anpi-pol
 ```
-##Example
+## Example
 Solve with Laguerre x+2 and make time tests
 ```bash
 ./anpi-pol -u 1.0+2.0 -l -t

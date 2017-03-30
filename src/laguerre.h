@@ -9,7 +9,8 @@
 #include <iostream>
 #include <iomanip>
 #include <complex>
-
+#include <boost/math/tools/polynomial.hpp>
+using namespace boost::math::tools;
 using namespace std;
 const double tolerate = 1e-15;
 
@@ -91,12 +92,12 @@ vector<complex<T>> allRoots(const vector<complex<T>> &poly) {
 
 
 template <typename T>
-vector<complex<T>> allRootsMP(const vector<complex<T>> &poly,complex<T> n) {
+vector<complex<T>> allRootsMP(const vector<complex<T>> &poly) {
     vector<complex<T>> answer;
     vector<complex<T>> polyAux = poly;
 
     while (polyAux.size() > 2) {
-        complex<T> comp =n;
+        complex<T> comp =(0,0);
         comp = laguerre(polyAux, comp);
         cout<<"comp"<<comp<<endl;
         polyAux = deflation(polyAux, comp);
@@ -105,11 +106,13 @@ vector<complex<T>> allRootsMP(const vector<complex<T>> &poly,complex<T> n) {
     answer.push_back(-polyAux[0] / polyAux[1]);
 
     return answer;
-        
-        
-        
-    }
+}
 
+template <typename T>
+std::vector<complex<T>> solveLaguerre(const polynomial<complex<T>> &poly) {
+    std::vector<complex<T>> v = allRoots(poly.data());
+    return v;
+}
 
 
 
