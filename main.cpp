@@ -2,6 +2,7 @@
 #include "lib/optionparser.h"
 #include "src/stringUtils.h"
 #include "src/laguerre.h"
+#include "src/muller.h"
 #include <boost/math/tools/polynomial.hpp>
 using namespace boost::math::tools;
 using namespace std;
@@ -31,23 +32,23 @@ int main(int argc, char* argv[]) {
             std::string ustring = options["equ"].as<std::string>();
             std::string del = "+";
             std::vector<std::complex<double>> u = splitDouble(ustring, del);
-            polynomial<std::complex<double>> pu(u.begin(),u.end());
             if (options.count("laguerre")) {
-                std::vector<std::complex<double>> res = solveLaguerre(pu);
+                std::vector<std::complex<double>> res = allRoots(u);
                 for (int j = 0; j < res.size(); ++j) {
                     std::cout  << res[j] << std::endl;
                 }
 
             } else if (options.count("muller")) {
-
+                std::vector<std::complex<double>> res = anpi::muller::allRoots(u,);
+                for (int j = 0; j < res.size(); ++j) {
+                    std::cout  << res[j] << std::endl;
+                }
 
 
             } else if (options.count("division")) {
                 if (options.count("eqv")) {
                     std::string vstring = options["eqv"].as<std::string>();
                     std::vector<std::complex<double>> v = splitDouble(vstring, del);
-
-
                 }
             }
         }

@@ -1,23 +1,16 @@
 #ifndef ANPI_P2_MULLER_H
 #define ANPI_P2_MULLER_H
 #include <complex>
+#include "laguerre.h"
 
 namespace anpi 
 {
     namespace muller
     {
+
+
         template<typename T>
-        std::complex<T> horner(std::complex<T> x, T *a,  unsigned int grado) 
-        {
-            //Evaluacion secuencial de un polinomio mediante el metodo de Horner.
-            std::complex<T> result = a[grado];
-            for(int i=grado-1; i >= 0 ; --i)
-                result = result * x + a[i];
-            return result;
-        }
-         
-        template<typename T>
-        std::complex<T> solve(T * coefs, unsigned int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
+        std::complex<T> solve(vector<complex<T>> coefs, unsigned int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
         {
             // Busqueda de raices reales y complejas mediante el metodo de Muller.
             
@@ -50,9 +43,9 @@ namespace anpi
             for (int contador = 0 ; contador < 10 ; ++contador)
             {
                 // Evaluamos los tres puntos que tenemos:
-                lowerEval = horner(lower, coefs, grado);
-                middleEval = horner(middle, coefs, grado);
-                upperEval = horner(upper, coefs, grado);
+                lowerEval = horner( coefs,lower);
+                middleEval = horner(coefs,middle);
+                upperEval = horner(coefs,upper);
 
                 /* Primer paso es obtener c mediante la evaluacion directa del
                  * upper en el polinomio */
@@ -112,7 +105,23 @@ namespace anpi
 
             return upper;
         }
-    }
+        template <typename T>
+        vector<complex<T>> allRoots(const vector<complex<T>> &poly,complex<T> l,complex<T> m,complex<T> u) {
+            vector<complex<T>> answer;
+            vector<complex<T>> polyAux = poly;
+            while (polyAux.size() > 2) {
+                complex<T> comp = complex<T>(0);
+                comp = anpi::muller::solve(polyAux,polyAux.size(),l,m,u);
+                comp = anpi::muller::solve(poly,poly.size(),l,m,u);
+                polyAux = deflation(polyAux, comp);
+
+                answer.push_back(comp);
+            }
+            answer.push_back(-polyAux[0] / polyAux[1]);
+
+            return answer;
+
+        }
 }
 
 #endif //ANPT_P2_MULLER_H

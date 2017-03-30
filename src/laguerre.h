@@ -108,12 +108,6 @@ vector<complex<T>> allRootsMP(const vector<complex<T>> &poly) {
     return answer;
 }
 
-template <typename T>
-std::vector<complex<T>> solveLaguerre(const polynomial<complex<T>> &poly) {
-    std::vector<complex<T>> v = allRoots(poly.data());
-    return v;
-}
-
 
 
 #endif //ANPI_P2_LAGUERRE_H
