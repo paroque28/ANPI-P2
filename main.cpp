@@ -31,14 +31,29 @@ int main()
 
 
 
-    complex<double > root = laguerre(p,complex<double>(0.0));
-    complex<double > root2 = laguerre(p2,complex<double>(0.0));
-    complex<double > root3 = laguerre(p3,complex<double>(0.0));
+    vector<complex<double >> root = allRoots(p2);
+   vector< complex<double >> root2 = allRootsMP(p2,root.back());
+    //vector<complex<double >> root3 = laguerre(p3);
 
 
-    cout << setprecision(10)<<"p1 " << root <<endl;
-    cout << setprecision(10)<<"p2 " << root2 <<endl;
-    cout << setprecision(10)<<"p3 " << root3 <<endl;
+    for (int i = 0; i <root.size(); ++i) {
+        cout << setprecision(10)<<"p1 " << root[i] <<endl;
+    }
+
+
+    for (int i = 0; i <root2.size() ; ++i) {
+        cout << setprecision(10)<<"p2 " << root2[i] <<endl;
+    }
+
+/*
+    for (int i = 0; i <root3.size()-1 ; ++i) {
+        cout << setprecision(10)<<"p1 " << root3[i] <<endl;
+    }*/
+
+
+    //cout << setprecision(10)<<"p2 " << root2 <<endl;
+   // cout << setprecision(10)<<"p3 " << root3 <<endl;
+
 
     return 0;
 }
