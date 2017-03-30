@@ -82,6 +82,7 @@ vector<complex<T>> allRoots(const vector<complex<T>> &poly) {
     while (polyAux.size() > 2) {
         comp = complex<T>(0);
         comp = laguerre(polyAux, comp);
+        comp = laguerre(poly, comp);
         polyAux = deflation(polyAux, comp);
         answer.push_back(comp);
     }

@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
                 std::vector<std::complex<double>> res = anpi::muller::allRoots(u,a,b,c);
                 for (int j = 0; j < res.size(); ++j) {
-                    std::cout  << res[j] << std::endl;
+                    std::cout <<setprecision(15)  << res[j] << std::endl;
                 }
 
 
