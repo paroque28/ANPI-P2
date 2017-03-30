@@ -17,7 +17,7 @@ namespace anpi
         }
          
         template<typename T>
-        std::complex<T> solve(T * coefs, int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
+        std::complex<T> solve(T * coefs, unsigned int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
         {
             // Busqueda de raices reales y complejas mediante el metodo de Muller.
             
@@ -60,8 +60,20 @@ namespace anpi
 
                 // Luego se calculan las diferencias
                 h0 = middle - lower;
+
+                if (h0 == std::complex<T> (0, 0))
+                {
+                    break;
+                }
+
                 gamma0 = (middleEval - lowerEval) / (middle - lower);
                 h1 = upper - middle;
+
+                if (h1 == std::complex<T> (0, 0))
+                {
+                    break;
+                }
+
                 gamma1 = (upperEval - middleEval) / (upper - middle);
 
                 // Luego se calculan los coeficientes de la nueva parabola.
