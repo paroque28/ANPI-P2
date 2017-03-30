@@ -36,10 +36,12 @@ int main(int argc, char* argv[]) {
             std::string ustring = options["equ"].as<std::string>();
             std::string del = "+";
             std::vector<std::complex<double>> u = splitDouble(ustring, del);
+
+
             if (options.count("laguerre")) {
                 std::vector<std::complex<double>> res = allRoots(u);
                 for (int j = 0; j < res.size(); ++j) {
-                    std::cout  << res[j] << std::endl;
+                    std::cout <<setprecision(15) << res[j] << std::endl;
                 }
 
             } else if (options.count("muller")) {
@@ -47,12 +49,10 @@ int main(int argc, char* argv[]) {
                 if(options.count("xl"))xl = options["xl"].as<double>(); else exit(1);
                 if(options.count("xm"))xm = options["xm"].as<double>(); else exit(1);
                 if(options.count("xu"))xu = options["xu"].as<double>(); else exit(1);
-                complex<double> a =complex<double>(0,0);
-                complex<double> b =complex<double>(0,0);
-                complex<double> c =complex<double>(0,0);
-                a.operator+=(xl);
-                b.operator+=(xm);
-                c.operator+=(xu);
+                complex<double> a =complex<double>(xl);
+                complex<double> b =complex<double>(xm);
+                complex<double> c =complex<double>(xu);
+
 
                 std::vector<std::complex<double>> res = anpi::muller::allRoots(u,a,b,c);
                 for (int j = 0; j < res.size(); ++j) {

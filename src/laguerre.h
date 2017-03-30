@@ -12,7 +12,7 @@
 #include <boost/math/tools/polynomial.hpp>
 using namespace boost::math::tools;
 using namespace std;
-const double tolerate = 1e-15;
+const double tolerate = 1e-25;
 
 template <typename T>
 complex<T> horner(const vector<complex<T>> &a, complex<T> x0){
@@ -48,7 +48,8 @@ vector<complex<T>> derivate(const vector<complex<T>> &poly) {
 template <typename T>
 int compare(complex<T> x, complex<T> y) {
     double diff = abs(x) - abs(y);
-    return diff < -tolerate ? -1 : (diff > tolerate ? 1 : 0);
+    //
+    return diff < -tolerate ? -1 : (abs(diff) > tolerate ? 1 : 0);
 }
 template <typename T>
 complex<T> laguerre(const vector<complex<T>> &p0, complex<T> x) {
@@ -77,15 +78,15 @@ template <typename T>
 vector<complex<T>> allRoots(const vector<complex<T>> &poly) {
     vector<complex<T>> answer;
     vector<complex<T>> polyAux = poly;
+    complex<T> comp = complex<T>(0);
     while (polyAux.size() > 2) {
-        complex<T> comp = complex<T>(0);
+        comp = complex<T>(0);
         comp = laguerre(polyAux, comp);
-        comp = laguerre(poly, comp);
         polyAux = deflation(polyAux, comp);
         answer.push_back(comp);
     }
-    answer.push_back(-polyAux[0] / polyAux[1]);
-
+    //answer.push_back(-polyAux[0] / polyAux[1]);
+     answer.push_back(-polyAux[0] / polyAux[1]);
     return answer;
 
 }

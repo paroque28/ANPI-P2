@@ -2,14 +2,24 @@
 #define ANPI_P2_MULLER_H
 #include <complex>
 #include "laguerre.h"
-
+using namespace std;
 namespace anpi {
     namespace muller {
+
+        template<typename T>
+        std::complex<T> horner2(vector<complex<T>> a,std::complex<T> x)
+        {
+            //Evaluacion secuencial de un polinomio mediante el metodo de Horner.
+            std::complex<T> result = a[a.size()-1];
+            for(int i=a.size()-2; i >= 0 ; --i)
+                result = result * x + a[i];
+            return result;
+        }
 
 
         template<typename T>
         std::complex<T>
-        solve(vector<complex<T>> coefs, unsigned int grado, std::complex<T> lower, std::complex<T> middle,
+        solve(vector<complex<T>> coefs, std::complex<T> lower, std::complex<T> middle,
               std::complex<T> upper) {
             // Busqueda de raices reales y complejas mediante el metodo de Muller.
 
@@ -41,9 +51,9 @@ namespace anpi {
 
             for (int contador = 0; contador < 10; ++contador) {
                 // Evaluamos los tres puntos que tenemos:
-                lowerEval = horner(coefs, lower);
-                middleEval = horner(coefs, middle);
-                upperEval = horner(coefs, upper);
+                lowerEval = horner2(coefs, lower);
+                middleEval = horner2(coefs, middle);
+                upperEval = horner2(coefs, upper);
 
                 /* Primer paso es obtener c mediante la evaluacion directa del
                  * upper en el polinomio */
@@ -102,10 +112,8 @@ namespace anpi {
             vector<complex<T>> polyAux = poly;
             while (polyAux.size() > 2) {
                 complex<T> comp = complex<T>(0);
-                comp = anpi::muller::solve(polyAux, polyAux.size(), l, m, u);
-                comp = anpi::muller::solve(poly, poly.size(), l, m, u);
+                comp = anpi::muller::solve(polyAux, l, m, u);
                 polyAux = deflation(polyAux, comp);
-
                 answer.push_back(comp);
             }
             answer.push_back(-polyAux[0] / polyAux[1]);
