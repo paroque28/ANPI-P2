@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
         options.parse(argc, argv);
 
 
-        if (options.count("help") || argc == 0) {
+        if (options.count("help") || argc == 1) {
             std::cout << options.help({""}) << std::endl;
             exit(0);
         }
