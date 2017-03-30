@@ -1,6 +1,5 @@
 #ifndef ANPI_P2_MULLER_H
 #define ANPI_P2_MULLER_H
-#include <cmath>
 #include <complex>
 
 namespace anpi 
@@ -18,7 +17,7 @@ namespace anpi
         }
          
         template<typename T>
-        std::complex<T> solve(T * coefs, int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
+        std::complex<T> solve(T * coefs, unsigned int grado, std::complex<T> lower, std::complex<T> middle, std::complex<T> upper)
         {
             // Busqueda de raices reales y complejas mediante el metodo de Muller.
             
@@ -59,11 +58,27 @@ namespace anpi
                  * upper en el polinomio */
                 c = upperEval;
 
-                // Luegos se calculan las diferencias
+                // Luego se calculan las diferencias
                 h0 = middle - lower;
+
+                if (h0 == std::complex<T> (0, 0))
+                {
+                    break;
+                }
+
                 gamma0 = (middleEval - lowerEval) / (middle - lower);
                 h1 = upper - middle;
+
+                if (h1 == std::complex<T> (0, 0))
+                {
+                    break;
+                }
+
                 gamma1 = (upperEval - middleEval) / (upper - middle);
+
+                // Luego se calculan los coeficientes de la nueva parabola.
+                a = (gamma1 - gamma0) / (h1 - h0);
+                b = (a * h1) + gamma1;
 
                 // Calculamos las dos raices mediante la formula alternativa cuadratica:
                 firstRoot = upper + ((-dos * c) / (b + std::sqrt(std::pow(b, dos) - cuatro * a * c)));
@@ -90,9 +105,9 @@ namespace anpi
                     }
                 }
 
-                upper = actualRoot;
                 middle = upper;
                 lower = middle;
+                upper = actualRoot;
             }
 
             return upper;
