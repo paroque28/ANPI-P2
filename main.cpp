@@ -15,7 +15,11 @@ int main(int argc, char* argv[]) {
                 ("m,muller", "Use Muller method")
                 ("t,time", "Use time tests")
                 ("f,float", "Use floats for precission")
+                ("p,polish", "Use polish")
                 ("d,division", "Division of polynomials")
+                ("a,xl", "Muller lower x",cxxopts::value<double>())
+                ("b,xm", "Muller medium x",cxxopts::value<double>())
+                ("c,xu", "Muller upper x",cxxopts::value<double>())
                 ("u,equ", "Equation 1 to solve, example \"3.0+2.0+1.0\" is equivalent to 3x^2+2x+1",cxxopts::value<std::string>())
                 ("v,eqv", "Equation 2 used to divide",cxxopts::value<std::string>())
                 ("h,help", "Print help");
@@ -39,7 +43,11 @@ int main(int argc, char* argv[]) {
                 }
 
             } else if (options.count("muller")) {
-                std::vector<std::complex<double>> res = anpi::muller::allRoots(u,);
+                double xl,xm,xu;
+                if(options.count("xl"))xl = options["xl"].as<double>(); else{exit(1);}
+                if(options.count("xm"))xm = options["xm"].as<double>(); else{exit(1);}
+                if(options.count("xu"))xu = options["xu"].as<double>(); else{exit(1);}
+                std::vector<std::complex<double>> res = anpi::muller::allRoots(u,xl,xm,xu);
                 for (int j = 0; j < res.size(); ++j) {
                     std::cout  << res[j] << std::endl;
                 }
