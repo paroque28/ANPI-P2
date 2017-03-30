@@ -1,6 +1,5 @@
 #ifndef ANPI_P2_MULLER_H
 #define ANPI_P2_MULLER_H
-#include <cmath>
 #include <complex>
 
 namespace anpi 
@@ -59,11 +58,15 @@ namespace anpi
                  * upper en el polinomio */
                 c = upperEval;
 
-                // Luegos se calculan las diferencias
+                // Luego se calculan las diferencias
                 h0 = middle - lower;
                 gamma0 = (middleEval - lowerEval) / (middle - lower);
                 h1 = upper - middle;
                 gamma1 = (upperEval - middleEval) / (upper - middle);
+
+                // Luego se calculan los coeficientes de la nueva parabola.
+                a = (gamma1 - gamma0) / (h1 - h0);
+                b = (a * h1) + gamma1;
 
                 // Calculamos las dos raices mediante la formula alternativa cuadratica:
                 firstRoot = upper + ((-dos * c) / (b + std::sqrt(std::pow(b, dos) - cuatro * a * c)));
@@ -90,9 +93,9 @@ namespace anpi
                     }
                 }
 
-                upper = actualRoot;
                 middle = upper;
                 lower = middle;
+                upper = actualRoot;
             }
 
             return upper;
