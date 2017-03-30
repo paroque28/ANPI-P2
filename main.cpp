@@ -44,10 +44,17 @@ int main(int argc, char* argv[]) {
 
             } else if (options.count("muller")) {
                 double xl,xm,xu;
-                if(options.count("xl"))xl = options["xl"].as<double>(); else{exit(1);}
-                if(options.count("xm"))xm = options["xm"].as<double>(); else{exit(1);}
-                if(options.count("xu"))xu = options["xu"].as<double>(); else{exit(1);}
-                std::vector<std::complex<double>> res = anpi::muller::allRoots(u,xl,xm,xu);
+                if(options.count("xl"))xl = options["xl"].as<double>(); else exit(1);
+                if(options.count("xm"))xm = options["xm"].as<double>(); else exit(1);
+                if(options.count("xu"))xu = options["xu"].as<double>(); else exit(1);
+                complex<double> a =complex<double>(0,0);
+                complex<double> b =complex<double>(0,0);
+                complex<double> c =complex<double>(0,0);
+                a.operator+=(xl);
+                b.operator+=(xm);
+                c.operator+=(xu);
+
+                std::vector<std::complex<double>> res = anpi::muller::allRoots(u,a,b,c);
                 for (int j = 0; j < res.size(); ++j) {
                     std::cout  << res[j] << std::endl;
                 }
