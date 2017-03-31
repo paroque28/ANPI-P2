@@ -6,7 +6,7 @@ using namespace std;
 const double tolerate2 = 1e-50;
 namespace anpi {
     namespace muller {
-        d
+  
         template<typename T>
         std::complex<T> muller(vector<complex<T>> coefs, std::complex<T> l, std::complex<T> m,std::complex<T> u) {
             complex<T> f2;
